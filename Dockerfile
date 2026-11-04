@@ -1,10 +1,13 @@
+# ── Etapa 1: Compilación de Frontend (Node) ─────────────────
 FROM node:22-alpine AS frontend
 
 WORKDIR /app
 
 COPY . .
-RUN npm ci && npm run build
+# Usamos npm install para evitar fallos si no existe package-lock.json
+RUN npm install && npm run build
 
+# ── Etapa 2: Servidor PHP + Apache ──────────────────────────
 FROM php:8.3-apache
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -31,6 +34,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 COPY . .
+# Copiar los assets compilados desde la etapa 1
 COPY --from=frontend /app/public/build ./public/build
 
 RUN composer install \
