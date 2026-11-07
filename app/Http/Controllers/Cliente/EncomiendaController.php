@@ -21,4 +21,15 @@ class EncomiendaController extends Controller
 
         return view('cliente.encomiendas.index', compact('encomiendas'));
     }
+
+    public function show(Encomienda $encomienda): View
+    {
+        $encomienda = Encomienda::with('viaje.ruta', 'tipoEncomienda')
+            ->whereKey($encomienda->id)
+            ->where('cliente_id', auth('cliente')->id())
+            ->where('estado_base', 1)
+            ->firstOrFail();
+
+        return view('cliente.encomiendas.show', compact('encomienda'));
+    }
 }

@@ -160,10 +160,14 @@ Route::middleware('auth:cliente')->name('cliente.')->group(function () {
          ->name('boletos.create');
     Route::get('cliente/boletos/qr/{reserva}', [ClienteBoletoController::class, 'qr'])
          ->name('boletos.qr');
+    Route::get('cliente/boletos/{boleto}', [ClienteBoletoController::class, 'show'])
+         ->name('boletos.show');
     Route::post('cliente/boletos/{reserva}/confirmar-pago', [ClienteBoletoController::class, 'confirmarPago'])
          ->name('boletos.confirmar-pago');
     Route::get('cliente/encomiendas', [ClienteEncomiendaController::class, 'index'])
          ->name('encomiendas.index');
+    Route::get('cliente/encomiendas/{encomienda}', [ClienteEncomiendaController::class, 'show'])
+         ->name('encomiendas.show');
     Route::get('cliente/notificaciones', [ClienteNotificacionController::class, 'index'])
          ->name('notificaciones.index');
     Route::post('cliente/logout', [ClienteAuthController::class, 'logout'])

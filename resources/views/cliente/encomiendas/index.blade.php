@@ -20,6 +20,9 @@
                         <p>Destino: {{ $encomienda->viaje->ruta->destino ?? '—' }}</p>
                         <p>Total a pagar: Bs. {{ number_format($encomienda->total_pagar, 2) }}</p>
                     </div>
+                    <a href="{{ route('cliente.encomiendas.show', $encomienda) }}" class="mt-4 inline-flex rounded-lg bg-[#0B2A1E] px-3 py-2 text-sm font-semibold text-white hover:bg-[#1B6B45]">
+                        Ver detalle de encomienda
+                    </a>
                 </div>
             @empty
                 <div class="rounded-2xl border border-black/10 bg-white p-6 shadow-sm text-[#12241C]/50">

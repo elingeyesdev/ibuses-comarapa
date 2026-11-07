@@ -45,6 +45,17 @@ class BoletoController extends Controller
         return view('cliente.boletos.index', compact('boletosPorViaje'));
     }
 
+    public function show(Boleto $boleto): View
+    {
+        $boleto = Boleto::with('viaje.ruta', 'viaje.bus', 'reserva')
+            ->whereKey($boleto->id)
+            ->where('estado_base', 1)
+            ->whereHas('reserva', fn ($query) => $query->where('cliente_id', auth('cliente')->id()))
+            ->firstOrFail();
+
+        return view('cliente.boletos.show', compact('boleto'));
+    }
+
     public function __construct(private ViajeAsientosService $asientosService)
     {
     }
@@ -229,7 +240,7 @@ class BoletoController extends Controller
 
         $this->limpiarBoletosExpirados($reserva);
         $boletos = $reserva->boletos()->with('viaje.ruta')->get();
-        $qrImage = asset('images/qr-fake.svg');
+        $qrImage = asset('images/qr.png');
         $pendientes = $reserva->boletos()
             ->where('metodo_pago', 'QR')
             ->where('estado', 'pendiente')

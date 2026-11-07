@@ -51,6 +51,9 @@
                                             <p><span class="font-semibold text-[#12241C]">Pago:</span> {{ ucfirst($boleto->metodo_pago) }}</p>
                                             <x-expiration-countdown :boleto="$boleto" />
                                         </div>
+                                        <a href="{{ route('cliente.boletos.show', $boleto) }}" class="mt-4 inline-flex rounded-lg bg-[#0B2A1E] px-3 py-2 text-sm font-semibold text-white hover:bg-[#1B6B45]">
+                                            Ver boleto
+                                        </a>
                                     </div>
                                 @endforeach
                             </div>
